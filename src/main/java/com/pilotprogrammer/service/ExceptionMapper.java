@@ -14,10 +14,10 @@ public class ExceptionMapper implements javax.ws.rs.ext.ExceptionMapper<Exceptio
 
 	public Response toResponse(Exception exception) {
 		Integer errorCode = 500;
-		String errorMessage = "Unexpected Error Occured.";
+		String errorMessage = "Code Red!";
 		
 		if (exception instanceof FileNotFoundException) {
-			errorCode = 204;
+			errorCode = 400;
 			errorMessage = "We couldn't find the specified file.";
 		} else if (exception instanceof IllegalArgumentException) {
 			errorCode = 400;
