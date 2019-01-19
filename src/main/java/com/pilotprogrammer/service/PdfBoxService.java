@@ -2,8 +2,10 @@ package com.pilotprogrammer.service;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.net.URL;
 import java.util.Date;
 
 import javax.servlet.ServletContext;
@@ -35,24 +37,15 @@ public class PdfBoxService {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_OCTET_STREAM)
 	public byte[] byteArray(@Context HttpServletResponse resp, @QueryParam("loc") FileLocation loc) throws IOException {
-		if (loc == null) {
-			throw new IllegalArgumentException("File location not provided.");
-		}
-		
-		ClassLoader classLoader = getClass().getClassLoader();
-		File file = new File(classLoader.getResource(loc.getFilePath()).getFile());
-		resp.addHeader("Content-Disposition",  "attachment; filename=\"doc3.pdf\"");
-		byte[] fileContent = FileUtils.readFileToByteArray(file);
+		byte[] fileContent = getResource(resp, loc);
 		return fileContent;
 	}
 	
 	@GET
-	@Path("/byteArrayResponseObject")
-	public Response byteArrayResponseObject() throws IOException {
-		File file = new File(getClass().getResource("/SimpleForm.pdf").getFile());
-		byte[] fileContent = FileUtils.readFileToByteArray(file);
-		return Response.ok(fileContent, MediaType.APPLICATION_OCTET_STREAM)
-				.header("content-disposition", "attachment; filename=\"doc.pdf\"").build();
+	@Path("/wrappedByteArray")
+	public Response wrappedByteArray(@Context HttpServletResponse resp, @QueryParam("loc") FileLocation loc) throws IOException {
+		byte[] fileContent = getResource(resp, loc);
+		return Response.ok(fileContent, MediaType.APPLICATION_OCTET_STREAM).build();
 	}
 		
 	@GET
@@ -83,5 +76,28 @@ public class PdfBoxService {
         };
 
 	    return Response.ok(stream).header("content-disposition","attachment; filename=\"big-file.zip\"").build();
+	}
+	
+	private byte[] getResource(HttpServletResponse resp, FileLocation loc) throws IOException {		
+		if (loc == null) {
+			throw new IllegalArgumentException("File location not provided.");
+		}
+		
+		URL url;
+		if (loc.shouldUseClassLoader()) {
+			url = getClass().getClassLoader().getResource(loc.getFilePath());
+		} else {
+			url = getClass().getResource(loc.getFilePath());
+		}
+
+		if (url == null) {
+			throw new FileNotFoundException();
+		}
+		
+		File file = new File(url.getFile());
+		resp.addHeader("Content-Disposition",  "attachment; filename=\""+ loc.toString() +"\"");
+		byte[] fileContent = FileUtils.readFileToByteArray(file);
+
+		return fileContent;
 	}
 }

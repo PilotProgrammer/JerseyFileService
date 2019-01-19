@@ -1,29 +1,36 @@
 package com.pilotprogrammer.service;
 
 public enum FileLocation {
-	// for these, file is placed in <project_root>/src/main/java/com/pilotprogrammer/class-loader-test.txt
-	CLASS_LOADER_ABSOLUTE_FOUND("/com/pilotprogrammer/class-loader-test.txt"),
-	CLASS_LOADER_RELATIVE_FOUND("com/pilotprogrammer/class-loader-test.txt"),
-	CLASS_LOADER_ABSOLUTE_NOT_FOUND("class-loader-test.txt"),
-	CLASS_LOADER_RELATIVE_NOT_FOUND("/class-loader-test.txt"),
+	CLASS_LOADER_ABSOLUTE_FOUND("/com/pilotprogrammer/class-loader-test.txt", true),
+	CLASS_LOADER_RELATIVE_FOUND("com/pilotprogrammer/class-loader-test.txt", true),
+	CLASS_LOADER_ABSOLUTE_NOT_FOUND("class-loader-test.txt", true),
+	CLASS_LOADER_RELATIVE_NOT_FOUND("/class-loader-test.txt", true),
 
-	// for these, file is placed in <project_root>/src/main/java/com/pilotprogrammer/service/adjacent-class-test.txt
-	// and is placed in <project_root>/src/main/java/com/pilotprogrammer/level-above-class-test.txt
-	CLASS_ABSOLUTE_FOUND("/adjacent-class-test.txt"),
-	CLASS_RELATIVE_FOUND("adjacent-class-test.txt"),
-	CLASS_ABSOLUTE_NOT_FOUND(""),
-	CLASS_RELATIVE_NOT_FOUND(""),
+	CLASS_ABSOLUTE_FOUND("/com/pilotprogrammer/class-loader-test.txt", false),
+	CLASS_RELATIVE_FOUND("class-test.txt", false),
+	CLASS_ABSOLUTE_NOT_FOUND("/class-test.txt", false),
+	CLASS_RELATIVE_NOT_FOUND("com/pilotprogrammer/class-test.txt", false),
+	
+	CLASS_RELATIVE_DEEP_FOUND("com/pilotprogrammer/deep-class-test.txt", false),
 
-	NEW_CLASSPATH_FOUND("/pilot/programmer/new-class-path.txt"),
-	NEW_CLASSPATH_NOT_FOUND("/pilot/programmer/not-found.txt"),
+	NEW_CLASSPATH_FOUND("/new-class-path.txt", true),
+	NEW_CLASSPATH_NOT_FOUND("/pilot/programmer/new-class-path.txt", true),
+	
 	;
 	
 	private String filePath;
-	FileLocation(String path) {
-		filePath = path;
+	private boolean useClassLoader;
+
+	FileLocation(String filePath, boolean useClassLoader) {
+		this.filePath = filePath;
+		this.useClassLoader = useClassLoader;
 	}
 	
 	public String getFilePath() {
 		return filePath;
+	}
+	
+	public boolean shouldUseClassLoader() {
+		return useClassLoader;
 	}
 }
