@@ -6,9 +6,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.URL;
-import java.util.Date;
 
-import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -24,14 +22,8 @@ import javax.ws.rs.core.StreamingOutput;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 
-@Path("/pdfDoc")
-public class PdfBoxService {
-	protected ServletContext servletContext;
-	
-	public PdfBoxService(final @Context ServletContext servletContext) {
-		this.servletContext = servletContext;
-	}
-		
+@Path("/file")
+public class FileService {	
 	@GET
 	@Path("/byteArray")
 	@Consumes(MediaType.APPLICATION_JSON)
@@ -46,36 +38,6 @@ public class PdfBoxService {
 	public Response wrappedByteArray(@Context HttpServletResponse resp, @QueryParam("loc") FileLocation loc) throws IOException {
 		byte[] fileContent = getResource(resp, loc);
 		return Response.ok(fileContent, MediaType.APPLICATION_OCTET_STREAM).build();
-	}
-		
-	@GET
-	@Path("/byteArrayResponseObjectBigFile")
-	@Produces(MediaType.APPLICATION_OCTET_STREAM)
-	public Response byteArrayResponseObjectBigFile() throws IOException {
-		byte[] fileContent = FileUtils.readFileToByteArray(
-				new File("/Users/garrettgranacher/eclipse-workspace/google-samples/big-file.zip"));
-		return Response.ok(fileContent, MediaType.APPLICATION_OCTET_STREAM)
-				.header("content-disposition", "attachment; filename=\"big-file.zip\"").build();
-	}
-	
-	@GET
-	@Path("/outputStreamBigFile")
-	@Produces(MediaType.APPLICATION_OCTET_STREAM)
-	public Response outputStreamBigFile(@Context HttpServletResponse resp) throws IOException {
-		FileInputStream ois = FileUtils.openInputStream(new File("/Users/garrettgranacher/eclipse-workspace/google-samples/big-file.zip"));
-				
-        StreamingOutput stream = new StreamingOutput() {
-            @Override
-            public void write(OutputStream output) throws IOException, WebApplicationException {
-                try {
-                	IOUtils.copy(ois, output);
-                } catch (Exception e) {
-                    throw new WebApplicationException(e);
-                } 
-            }
-        };
-
-	    return Response.ok(stream).header("content-disposition","attachment; filename=\"big-file.zip\"").build();
 	}
 	
 	private byte[] getResource(HttpServletResponse resp, FileLocation loc) throws IOException {		
