@@ -15,7 +15,6 @@ public enum FileLocation {
 
 	NEW_CLASSPATH_FOUND("/new-class-path.txt", true),
 	NEW_CLASSPATH_NOT_FOUND("/pilot/programmer/new-class-path.txt", true),
-	
 	;
 	
 	private String filePath;
