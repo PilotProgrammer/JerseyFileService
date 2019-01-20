@@ -21,8 +21,6 @@ import org.apache.commons.io.FileUtils;
 public class FileService {	
 	@GET
 	@Path("/byteArray")
-	@Consumes(MediaType.APPLICATION_JSON)
-	@Produces(MediaType.APPLICATION_OCTET_STREAM)
 	public byte[] byteArray(@Context HttpServletResponse resp, @QueryParam("loc") FileLocation loc) throws IOException {
 		byte[] fileContent = getResource(resp, loc);
 		return fileContent;
