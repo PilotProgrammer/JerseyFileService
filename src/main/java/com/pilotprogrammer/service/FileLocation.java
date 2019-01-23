@@ -19,11 +19,6 @@ public enum FileLocation {
 	
 	private String filePath;
 	private boolean useClassLoader;
-
-	FileLocation(String filePath, boolean useClassLoader) {
-		this.filePath = filePath;
-		this.useClassLoader = useClassLoader;
-	}
 	
 	public String getFilePath() {
 		return filePath;
@@ -31,5 +26,10 @@ public enum FileLocation {
 	
 	public boolean shouldUseClassLoader() {
 		return useClassLoader;
+	}
+
+	FileLocation(String filePath, boolean useClassLoader) {
+		this.filePath = filePath;
+		this.useClassLoader = useClassLoader;
 	}
 }

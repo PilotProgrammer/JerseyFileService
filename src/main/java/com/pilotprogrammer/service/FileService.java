@@ -30,7 +30,7 @@ public class FileService {
 	@Path("/wrappedByteArray")
 	public Response wrappedByteArray(@Context HttpServletResponse resp, @QueryParam("loc") FileLocation loc) throws IOException {
 		byte[] fileContent = getResource(resp, loc);
-		return Response.ok(fileContent, MediaType.APPLICATION_OCTET_STREAM).build();
+		return Response.status(418).entity(fileContent).header("CustomeHeaderKey", "CustomHeaderValue").build();
 	}
 	
 	private byte[] getResource(HttpServletResponse resp, FileLocation loc) throws IOException {		
@@ -50,9 +50,8 @@ public class FileService {
 		}
 		
 		File file = new File(url.getFile());
-		resp.addHeader("Content-Disposition",  "attachment; filename=\""+ loc.toString() +"\"");
+		resp.addHeader("Content-Disposition",  "attachment; filename=\""+ loc.toString() +".txt\"");
 		byte[] fileContent = FileUtils.readFileToByteArray(file);
-
 		return fileContent;
 	}
 }
