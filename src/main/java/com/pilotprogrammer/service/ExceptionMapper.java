@@ -7,6 +7,8 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.Provider;
 
+import org.glassfish.jersey.server.ParamException;
+
 import com.google.gson.Gson;
 
 @Provider
@@ -14,12 +16,16 @@ public class ExceptionMapper implements javax.ws.rs.ext.ExceptionMapper<Exceptio
 
 	public Response toResponse(Exception exception) {
 		Integer errorCode = 500;
-		String errorMessage = "Code Red!";
+		String errorMessage = "Unexpected error!";
 		
 		if (exception instanceof FileNotFoundException) {
-			errorCode = 400;
+			errorCode = 404;
 			errorMessage = "We couldn't find the specified file.";
+		} else if (exception instanceof ParamException) {
+			errorCode = 400;
+			errorMessage = "You didn't provide the right parameters.";
 		} else if (exception instanceof IllegalArgumentException) {
+			
 			errorCode = 400;
 			errorMessage = "You didn't provide the right parameters.";
 		}
