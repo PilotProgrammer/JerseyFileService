@@ -23,10 +23,10 @@ public class ExceptionMapper implements javax.ws.rs.ext.ExceptionMapper<Exceptio
 			errorMessage = "We couldn't find the specified file.";
 		} else if (exception instanceof ParamException) {
 			errorCode = 400;
-			errorMessage = "You didn't provide the right parameters.";
+			errorMessage = "You did not provide the right parameters.";
 		} else if (exception instanceof IllegalArgumentException) {
 			errorCode = 400;
-			errorMessage = "You didn't provide the right parameters.";
+			errorMessage = "You did not provide the right parameters.";
 		}
 		
 		ErrorObject obj = new ErrorObject();
