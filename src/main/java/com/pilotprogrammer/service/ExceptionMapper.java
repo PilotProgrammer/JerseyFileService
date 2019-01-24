@@ -25,7 +25,6 @@ public class ExceptionMapper implements javax.ws.rs.ext.ExceptionMapper<Exceptio
 			errorCode = 400;
 			errorMessage = "You didn't provide the right parameters.";
 		} else if (exception instanceof IllegalArgumentException) {
-			
 			errorCode = 400;
 			errorMessage = "You didn't provide the right parameters.";
 		}
