@@ -20,7 +20,7 @@ public class ExceptionMapper implements javax.ws.rs.ext.ExceptionMapper<Exceptio
 		
 		if (exception instanceof FileNotFoundException) {
 			errorCode = 404;
-			errorMessage = "We couldn't find the specified file.";
+			errorMessage = "We could not find the specified file.";
 		} else if (exception instanceof ParamException) {
 			errorCode = 400;
 			errorMessage = "You did not provide the right parameters.";
