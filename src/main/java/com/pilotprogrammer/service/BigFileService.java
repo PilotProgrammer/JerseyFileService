@@ -34,7 +34,7 @@ public class BigFileService {
 	@Path("/outputStream")
 	@Produces(MediaType.APPLICATION_OCTET_STREAM)
 	public Response outputStream(@Context HttpServletResponse resp) throws IOException {
-		FileInputStream ois = FileUtils.openInputStream(new File("~/eclipse-workspace/google-samples/big-file.zip"));
+		FileInputStream ois = FileUtils.openInputStream(new File("~/eclipse-workspace/big-file.zip"));
 				
         StreamingOutput stream = new StreamingOutput() {
             @Override
