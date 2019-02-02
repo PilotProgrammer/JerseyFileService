@@ -22,7 +22,6 @@ import org.apache.commons.io.IOUtils;
 public class BigFileService {				
 	@GET
 	@Path("/byteArrayResponseObject")
-	@Produces(MediaType.APPLICATION_OCTET_STREAM)
 	public Response byteArrayResponseObject() throws IOException {
 		byte[] fileContent = FileUtils.readFileToByteArray(
 				new File("~/eclipse-workspace/big-file.zip"));
