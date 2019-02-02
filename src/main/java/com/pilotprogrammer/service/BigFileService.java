@@ -24,7 +24,7 @@ public class BigFileService {
 	@Path("/byteArrayResponseObject")
 	public Response byteArrayResponseObject() throws IOException {
 		byte[] fileContent = FileUtils.readFileToByteArray(
-				new File("~/eclipse-workspace/big-file.zip"));
+				new File("/var/big-file.zip"));
 		return Response.ok(fileContent, MediaType.APPLICATION_OCTET_STREAM)
 				.header("content-disposition", "attachment; filename=\"big-file.zip\"").build();
 	}
@@ -33,7 +33,7 @@ public class BigFileService {
 	@Path("/outputStream")
 	@Produces(MediaType.APPLICATION_OCTET_STREAM)
 	public Response outputStream(@Context HttpServletResponse resp) throws IOException {
-		FileInputStream ois = FileUtils.openInputStream(new File("~/eclipse-workspace/big-file.zip"));
+		FileInputStream ois = FileUtils.openInputStream(new File("/var/big-file.zip"));
 				
         StreamingOutput stream = new StreamingOutput() {
             @Override
