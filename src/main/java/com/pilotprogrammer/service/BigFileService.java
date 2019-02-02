@@ -25,7 +25,7 @@ public class BigFileService {
 	@Produces(MediaType.APPLICATION_OCTET_STREAM)
 	public Response byteArrayResponseObject() throws IOException {
 		byte[] fileContent = FileUtils.readFileToByteArray(
-				new File("~/eclipse-workspace/google-samples/big-file.zip"));
+				new File("~/eclipse-workspace/big-file.zip"));
 		return Response.ok(fileContent, MediaType.APPLICATION_OCTET_STREAM)
 				.header("content-disposition", "attachment; filename=\"big-file.zip\"").build();
 	}
